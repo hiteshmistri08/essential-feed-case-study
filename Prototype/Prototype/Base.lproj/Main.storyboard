@@ -7,17 +7,25 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Table View Controller-->
+        <!--My Feed-->
         <scene sceneID="faO-1N-dHX">
             <objects>
-                <tableViewController id="bnb-7U-zuY" sceneMemberID="viewController">
+                <tableViewController id="bnb-7U-zuY" customClass="FeedViewController" customModule="Prototype" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="nbt-Dz-Apj">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="vPw-ta-fg7">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </view>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="NG0-V3-oTv">
+                            <rect key="frame" x="0.0" y="663" width="414" height="16"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="580" id="jUq-te-Mzf">
-                                <rect key="frame" x="0.0" y="44.5" width="414" height="580"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="580" id="jUq-te-Mzf" customClass="FeedImageCell" customModule="Prototype" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="60.5" width="414" height="580"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jUq-te-Mzf" id="JJl-au-jCU">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="580"/>
@@ -39,7 +47,6 @@
                                                                     </constraints>
                                                                 </imageView>
                                                             </subviews>
-                                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                             <constraints>
                                                                 <constraint firstItem="ktJ-A8-3e6" firstAttribute="top" secondItem="SPM-qe-SxP" secondAttribute="top" constant="3" id="HSj-nr-gSz"/>
                                                                 <constraint firstAttribute="width" constant="10" id="V0e-ag-yrJ"/>
@@ -77,7 +84,7 @@
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="phU-e9-dtb">
                                                     <rect key="frame" x="0.0" y="431" width="349" height="115"/>
-                                                    <mutableString key="text">Description Descriptio Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description</mutableString>
+                                                    <string key="text">Description Descriptio Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -96,6 +103,12 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="dLy-84-gn8" secondAttribute="trailing" id="pWN-iI-lxz"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="descriptionLabel" destination="phU-e9-dtb" id="z3I-qC-z9c"/>
+                                    <outlet property="feedImageView" destination="JVD-Qx-nxx" id="05s-up-aqT"/>
+                                    <outlet property="locationContainer" destination="vKo-JY-d6c" id="j7J-0X-jXv"/>
+                                    <outlet property="locationLabel" destination="ZmM-0U-i9F" id="Vn7-er-Roa"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -103,7 +116,7 @@
                             <outlet property="delegate" destination="bnb-7U-zuY" id="L26-SP-JbW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Btl-28-1SS"/>
+                    <navigationItem key="navigationItem" title="My Feed" id="Btl-28-1SS"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Awh-Aq-Mgg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
