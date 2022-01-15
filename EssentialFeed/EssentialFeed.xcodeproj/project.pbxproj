@@ -231,17 +231,9 @@
 		6748727D2776D6380071D5EB /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
-				6748727E2776DEC50071D5EB /* Codable */,
 				6748727C2776D5AE0071D5EB /* CoreData */,
 			);
 			path = Infrastructure;
-			sourceTree = "<group>";
-		};
-		6748727E2776DEC50071D5EB /* Codable */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Codable;
 			sourceTree = "<group>";
 		};
 		674CEB2626C8EFE00038B531 /* Helpers */ = {
@@ -737,6 +729,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.essentialdeveloper.EssentialFeed;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -762,6 +755,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.essentialdeveloper.EssentialFeed;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -781,6 +775,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.essentialdeveloper.EssentialFeedTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -801,6 +796,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.essentialdeveloper.EssentialFeedTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "macosx iphonesimulator iphoneos";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
