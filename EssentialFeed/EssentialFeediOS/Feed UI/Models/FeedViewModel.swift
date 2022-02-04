@@ -10,6 +10,7 @@ import EssentialFeed
 
 final class FeedViewModel {
     typealias Observer<T> = (T) -> Void
+    
     private let feedLoader: FeedLoader
     
     init(feedLoader:FeedLoader) {
