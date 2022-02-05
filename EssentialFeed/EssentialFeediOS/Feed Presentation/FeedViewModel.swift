@@ -17,11 +17,6 @@ final class FeedViewModel {
         self.feedLoader = feedLoader
     }
     
-    private enum State {
-        case pending
-        case loading
-    }
-    
     var onLoadingStateChange: Observer<Bool>?
     var onFeedLoad: Observer<[FeedImage]>?
     
