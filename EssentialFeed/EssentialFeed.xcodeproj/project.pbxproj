@@ -291,13 +291,13 @@
 			path = FeedStoreSpecs;
 			sourceTree = "<group>";
 		};
-		67462D9427AD984500C1E119 /* Models */ = {
+		67462D9427AD984500C1E119 /* Feed Presentation */ = {
 			isa = PBXGroup;
 			children = (
 				67462D9527AD989600C1E119 /* FeedViewModel.swift */,
 				67462D9727ADAD0300C1E119 /* FeedImageViewModel.swift */,
 			);
-			path = Models;
+			path = "Feed Presentation";
 			sourceTree = "<group>";
 		};
 		6748727C2776D5AE0071D5EB /* CoreData */ = {
@@ -341,7 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				67510FBA27AB0B3600DDDD89 /* Compossers */,
-				67462D9427AD984500C1E119 /* Models */,
+				67462D9427AD984500C1E119 /* Feed Presentation */,
 				67510FB127AAEDF100DDDD89 /* Controllers */,
 				67510FB227AAEE1300DDDD89 /* Views */,
 			);
