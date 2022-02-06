@@ -120,6 +120,7 @@
                         <connections>
                             <outlet property="dataSource" destination="WWW-Q6-xvb" id="VWS-SE-Dx9"/>
                             <outlet property="delegate" destination="WWW-Q6-xvb" id="G6z-VX-x9P"/>
+                            <outlet property="prefetchDataSource" destination="WWW-Q6-xvb" id="GAa-NW-bS3"/>
                         </connections>
                     </tableView>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="IP9-jf-Azx">
