@@ -11,10 +11,6 @@ protocol FeedViewControllerDelegate {
     func didRequestFeedRefresh()
 }
 
-public final class ErrorView : UIView {
-    public var message: String?
-}
-
 final public class FeedViewController : UITableViewController, UITableViewDataSourcePrefetching, FeedLoadingView, FeedErrorView {
     
     var delegate: FeedViewControllerDelegate?
@@ -41,11 +37,7 @@ final public class FeedViewController : UITableViewController, UITableViewDataSo
     func display(_ viewModel: FeedErrorViewModel) {
         errorView?.message = viewModel.message
     }
-    
-    func display(_ viewModel: FeedErrorViewModel) {
-        errorView.message = viewModel.message
-    }
-    
+
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableModel.count
     }
