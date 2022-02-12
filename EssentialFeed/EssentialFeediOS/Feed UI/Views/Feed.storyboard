@@ -18,6 +18,24 @@
                         <view key="tableHeaderView" contentMode="scaleToFill" id="T0p-6Z-w6P" customClass="ErrorView" customModule="EssentialFeediOS" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T9i-W7-Jz8">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="16"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" red="1" green="0.41568627450980389" blue="0.41568627450980389" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstItem="T9i-W7-Jz8" firstAttribute="top" secondItem="T0p-6Z-w6P" secondAttribute="top" id="1Sj-V7-jCW"/>
+                                <constraint firstAttribute="bottom" secondItem="T9i-W7-Jz8" secondAttribute="bottom" id="2LF-zP-17L"/>
+                                <constraint firstItem="T9i-W7-Jz8" firstAttribute="leading" secondItem="T0p-6Z-w6P" secondAttribute="leading" id="Z53-nN-y02"/>
+                                <constraint firstAttribute="trailing" secondItem="T9i-W7-Jz8" secondAttribute="trailing" id="ovy-LU-xeD"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="lable" destination="T9i-W7-Jz8" id="rUT-SQ-GPH"/>
+                            </connections>
                         </view>
                         <view key="tableFooterView" contentMode="scaleToFill" id="Be6-zG-Olg">
                             <rect key="frame" x="0.0" y="663" width="414" height="16"/>
