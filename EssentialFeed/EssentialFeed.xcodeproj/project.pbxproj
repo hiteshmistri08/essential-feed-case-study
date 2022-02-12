@@ -345,13 +345,6 @@
 			path = FeedStoreSpecs;
 			sourceTree = "<group>";
 		};
-		67462D9427AD984500C1E119 /* Feed Presentation */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Feed Presentation";
-			sourceTree = "<group>";
-		};
 		6747A6FE27B796E700C943CC /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -561,7 +554,6 @@
 			isa = PBXGroup;
 			children = (
 				67510FB327AAEF6700DDDD89 /* Feed Image Loader */,
-				67462D9427AD984500C1E119 /* Feed Presentation */,
 				67510FB027AAEDDA00DDDD89 /* Feed UI */,
 			);
 			path = EssentialFeediOS;
