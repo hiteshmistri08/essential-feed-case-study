@@ -29,9 +29,8 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
     }
     
     func test_loadImageDataFromURL_requestsDataFromURL() {
+        let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = makeSUT()
-        
-        let url = anyURL()
         
         sut.loadImageDataFromURL(url, completion: { _ in })
         
