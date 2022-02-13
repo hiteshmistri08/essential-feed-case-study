@@ -15,6 +15,6 @@ func anyNSError() -> NSError {
     return NSError(domain: "any error", code: 0)
 }
 
-private func anyData() -> Data {
+func anyData() -> Data {
     return Data("invalid json".utf8)
 }
