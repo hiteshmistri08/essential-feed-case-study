@@ -15,8 +15,13 @@ final class RemoteFeedImageDataLoader {
         self.client = client
     }
     
-    func loadImageDataFromURL(_ url: URL, completion: (Any) -> Void)  {
-        client.get(from: url) { _ in }
+    func loadImageDataFromURL(from url: URL, completion:@escaping (FeedImageDataLoader.Result) -> Void)  {
+        client.get(from: url) { result in
+            switch result {
+            case let .failure(error): completion(.failure(error))
+            default: break
+            }
+        }
     }
 }
 
@@ -32,7 +37,7 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = makeSUT()
         
-        sut.loadImageDataFromURL(url, completion: { _ in })
+        sut.loadImageDataFromURL(from: url, completion: { _ in })
         
         XCTAssertEqual(client.requestedURLs, [url])
     }
@@ -41,10 +46,19 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = makeSUT()
         
-        sut.loadImageDataFromURL(url, completion: {_ in})
-        sut.loadImageDataFromURL(url, completion: {_ in})
-        
+        sut.loadImageDataFromURL(from: url, completion: { _ in })
+        sut.loadImageDataFromURL(from: url, completion: { _ in })
+
         XCTAssertEqual(client.requestedURLs, [url, url])
+    }
+    
+    func test_loadImageDataFromURL_deliversErrorOnClientError() {
+        let (sut, client) = makeSUT()
+        let expectedError = NSError(domain: "a client error", code: 0)
+    
+        expect(sut, toCompleteWith: .failure(expectedError), when: {
+            client.complete(with: expectedError)
+        })
     }
     
     // MARK: - Helper
@@ -57,11 +71,37 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         return (sut, client)
     }
     
-    private class HTTPClientSpy: HTTPClient {
-        var requestedURLs = [URL]()
+    private func expect(_ sut: RemoteFeedImageDataLoader, toCompleteWith expectedReult: FeedImageDataLoader.Result, when action:() -> Void) {
+        let url = URL(string: "https://a-given-url.com")!
+     
+        let exp = expectation(description: "Wait for load completion")
+        sut.loadImageDataFromURL(from: url) { result in
+            switch (result, expectedReult) {
+            case let (.failure(resultedError as NSError), .failure(expectedError as NSError)):
+                XCTAssertEqual(resultedError, expectedError)
+            default:
+                XCTFail("Expected result should be error")
+            }
+            exp.fulfill()
+        }
         
+        action()
+        
+        wait(for: [exp], timeout: 1.0)
+    }
+    
+    private class HTTPClientSpy: HTTPClient {
+        private var messages = [(url: URL, completion: (HTTPClient.Result) -> Void)]()
+        var requestedURLs : [URL] {
+            return messages.map { $0.url}
+        }
+
         func get(from url: URL, completion: @escaping (HTTPClient.Result) -> Void) {
-            requestedURLs.append(url)
+            messages.append((url,completion))
+        }
+        
+        func complete(with error: Error, at index: Int = 0) {
+            messages[index].completion(.failure(error))
         }
     }
 }
