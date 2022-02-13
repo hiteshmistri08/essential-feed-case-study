@@ -68,9 +68,13 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
     func test_loadImageDataFromURL_deliversErrorOnNon200HTTPResponse() {
         let (sut, client) = makeSUT()
         
-        expect(sut, toCompleteWith: failure(.invalidData), when: {
-            client.complete(withStatusCode: 101, data: anyData(), at: 0)
-        })
+        let samples = [199, 201, 300, 400, 500]
+        
+        samples.enumerated().forEach { (index, code) in
+            expect(sut, toCompleteWith: failure(.invalidData), when: {
+                client.complete(withStatusCode: code, data: anyData(), at: index)
+            })
+        }
     }
     
     // MARK: - Helper
