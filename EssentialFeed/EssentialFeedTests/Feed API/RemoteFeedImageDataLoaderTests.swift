@@ -20,7 +20,7 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = makeSUT()
         
-        sut.loadImageData(from: url, completion: { _ in })
+        _ = sut.loadImageData(from: url, completion: { _ in })
         
         XCTAssertEqual(client.requestedURLs, [url])
     }
@@ -29,8 +29,8 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = makeSUT()
         
-        sut.loadImageData(from: url, completion: { _ in })
-        sut.loadImageData(from: url, completion: { _ in })
+        _ = sut.loadImageData(from: url, completion: { _ in })
+        _ = sut.loadImageData(from: url, completion: { _ in })
 
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
@@ -94,7 +94,7 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         var sut: RemoteFeedImageDataLoader? = RemoteFeedImageDataLoader(client: client)
        
         var capturedResult = [FeedImageDataLoader.Result]()
-        sut?.loadImageData(from: anyURL(), completion: { capturedResult.append($0) })
+        _ = sut?.loadImageData(from: anyURL(), completion: { capturedResult.append($0) })
         
         sut = nil
         client.complete(withStatusCode: 200, data: anyData())
@@ -131,7 +131,7 @@ class RemoteFeedImageDataLoaderTests: XCTestCase {
         let url = URL(string: "https://a-given-url.com")!
      
         let exp = expectation(description: "Wait for load completion")
-        sut.loadImageData(from: url) { receivedResult in
+        _ = sut.loadImageData(from: url) { receivedResult in
             switch (receivedResult, expectedReult) {
             case let (.success(receivedData), .success(expectedData)):
                 XCTAssertEqual(receivedData, expectedData, file: file, line: line)
