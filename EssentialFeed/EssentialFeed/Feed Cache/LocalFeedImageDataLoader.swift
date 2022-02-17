@@ -20,11 +20,11 @@ public final class LocalFeedImageDataLoader {
 }
 
 extension LocalFeedImageDataLoader {
-    typealias SaveResult = Result<Void, Swift.Error>
+    public typealias SaveResult = Result<Void, Swift.Error>
     
     public func save(_ data: Data, for url: URL, completion: @escaping(FeedImageDataStore.InsertionResult) -> Void) {
         store.insert(data, for: url) { result in
-            completion(.failure(SaveError.failed))
+            completion(result.mapError { _ in SaveError.failed })
         }
     }
 }
