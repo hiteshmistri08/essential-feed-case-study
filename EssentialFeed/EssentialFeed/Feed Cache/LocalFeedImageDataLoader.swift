@@ -10,6 +10,10 @@ import Foundation
 public final class LocalFeedImageDataLoader {
     private let store: FeedImageDataStore
     
+    public enum SaveError: Error {
+        case failed
+    }
+    
     public init(store: FeedImageDataStore) {
         self.store = store
     }
@@ -19,7 +23,9 @@ extension LocalFeedImageDataLoader {
     typealias SaveResult = Result<Void, Swift.Error>
     
     public func save(_ data: Data, for url: URL, completion: @escaping(FeedImageDataStore.InsertionResult) -> Void) {
-        store.insert(data, for: url) { _ in }
+        store.insert(data, for: url) { result in
+            completion(.failure(SaveError.failed))
+        }
     }
 }
 
