@@ -111,7 +111,7 @@ class LoadFeedImageDataFromCacheUseCaseTests: XCTestCase {
                 XCTAssertEqual(receivedError, expectedError, file: file, line: line)
                 
             default:
-                XCTFail("expected result \(expectedResult), got \(receivedResult) instead")
+                XCTFail("expected result \(expectedResult), got \(receivedResult) instead", file: file, line: line)
             }
             
             exp.fulfill()
