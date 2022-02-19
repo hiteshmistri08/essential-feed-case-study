@@ -35,7 +35,7 @@ extension LocalFeedLoader {
     }
     
     private func cache(_ feed:[FeedImage], with completion: @escaping(SaveResult) -> Void) {
-        store.insert(feed.toLocal(), self.currentDate()) { [weak self] insertionResult in
+        store.insert(feed.toLocal(), timestamp: self.currentDate()) { [weak self] insertionResult in
             guard self != nil else { return }
             
             completion(insertionResult)
