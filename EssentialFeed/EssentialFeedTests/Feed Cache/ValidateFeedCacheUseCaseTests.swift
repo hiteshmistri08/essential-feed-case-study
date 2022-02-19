@@ -97,15 +97,39 @@ class ValidateFeedCacheUseCaseTests: XCTestCase {
         })
     }
     
-    func test_validateCache_succeedsOnExpiredCache() {
+    func test_validateCache_succeedsOnNonExpiredCache() {
         let feed = uniqueImageFeed()
         let fixedCurrrentDate = Date()
         let nonExpiredTimestamp = fixedCurrrentDate.minusFeedCacheMaxAge().adding(seconds: 1)
         let (sut, store) = makeSUT(currentDate: { nonExpiredTimestamp })
         
-        
         expect(sut, toCompleteWith: .success(()), when: {
             store.completeRetrieval(with: feed.local, timestamp: nonExpiredTimestamp)
+        })
+    }
+    
+    func test_validateCahe_failsOnDeletionErrorOfExpiredCache() {
+        let feed = uniqueImageFeed()
+        let fixedCurrentDate = Date()
+        let expiredTimestamp = fixedCurrentDate.minusFeedCacheMaxAge().adding(seconds: -1)
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+        let deletionError = anyNSError()
+        
+        expect(sut, toCompleteWith: .failure(anyNSError()), when: {
+            store.completeRetrieval(with: feed.local, timestamp: expiredTimestamp)
+            store.completeDeletion(with: deletionError)
+        })
+    }
+    
+    func test_validateCache_succeedsOnSuccessfulDeletionOfExpiredCache() {
+        let feed = uniqueImageFeed()
+        let fixedCurrentDate = Date()
+        let expiredTimestamp = fixedCurrentDate.minusFeedCacheMaxAge().adding(seconds: -1)
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+        
+        expect(sut, toCompleteWith: .success(()), when: {
+            store.completeRetrieval(with: feed.local, timestamp: expiredTimestamp)
+            store.completeDeletionSuccessfully()
         })
     }
     
