@@ -7,12 +7,7 @@
 
 import XCTest
 import EssentialFeed
-
-public protocol FeedImageDataCache {
-     typealias Result = Swift.Result<Void, Error>
-
-     func save(_ data: Data, for url: URL, completion: @escaping (Result) -> Void)
- }
+import EssentialApp
 
 public final class FeedImageDataLoaderCacheDecorator: FeedImageDataLoader {
     private let decoratee: FeedImageDataLoader
