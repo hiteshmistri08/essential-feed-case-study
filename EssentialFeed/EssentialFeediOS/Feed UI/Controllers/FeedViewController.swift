@@ -17,7 +17,7 @@ final public class FeedViewController : UITableViewController, UITableViewDataSo
     var delegate: FeedViewControllerDelegate?
     @IBOutlet private(set) public var errorView: ErrorView?
     
-    var tableModel = [FeedImageCellController]() {
+    private var tableModel = [FeedImageCellController]() {
         didSet { tableView.reloadData() }
     }
     
@@ -37,6 +37,10 @@ final public class FeedViewController : UITableViewController, UITableViewDataSo
     
     public func display(_ viewModel: FeedErrorViewModel) {
         errorView?.message = viewModel.message
+    }
+    
+    func display(_ cellControllers: [FeedImageCellController]) {
+        tableModel = cellControllers
     }
 
     public override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
