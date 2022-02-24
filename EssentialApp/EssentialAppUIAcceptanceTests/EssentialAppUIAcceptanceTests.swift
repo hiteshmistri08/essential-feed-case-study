@@ -8,7 +8,7 @@
 import XCTest
 
 class EssentialAppUIAcceptanceTests: XCTestCase {
-    
+    /*
     func test_onLaunch_displayRemoteFeedWhenCustomerHasConnectivity() {
         let app = XCUIApplication()
         app.launchArguments = ["-reset", "-connectivity", "online"]
@@ -23,7 +23,7 @@ class EssentialAppUIAcceptanceTests: XCTestCase {
     
     func test_onLaunch_displaysCachedRemoteFeedWhenCustomerHasNoConnectivity() {
         let onlineApp = XCUIApplication()
-        onlineApp.launchArguments = ["-reset", "-connectivity", "online"]
+        onlineApp.launchArguments = ["-reset", "online"]
         onlineApp.launch()
         
         let offlineApp = XCUIApplication()
@@ -36,7 +36,7 @@ class EssentialAppUIAcceptanceTests: XCTestCase {
         let firstCahcedImage = offlineApp.images.matching(identifier: "feed-image-view").firstMatch
         XCTAssertTrue(firstCahcedImage.exists)
     }
-    
+    */
     func test_onLaunch_displaysEmptyFeedWhenCustomerHasNoConnectivityAndNoCache() {
         let app = XCUIApplication()
         app.launchArguments = ["-reset", "-connectivity", "offline"]
