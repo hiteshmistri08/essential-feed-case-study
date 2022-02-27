@@ -5,7 +5,7 @@
 //  Created by Hitesh on 10/02/22.
 //
 
-import UIKit
+import Foundation
 import EssentialFeed
 
 final class MainQueueDispatchDecorator<T> {
@@ -21,14 +21,6 @@ final class MainQueueDispatchDecorator<T> {
         }
         
         completion()
-    }
-}
-
-extension MainQueueDispatchDecorator: FeedLoader where T == FeedLoader {
-    func load(completion: @escaping (FeedLoader.Result) -> Void) {
-        decoratee.load { [weak self] result in
-            self?.dispatch { completion(result) }
-        }
     }
 }
 
