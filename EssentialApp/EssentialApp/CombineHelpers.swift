@@ -13,7 +13,7 @@ public extension FeedImageDataLoader {
     typealias Publisher = AnyPublisher<Data, Error>
     
     func loadImageDataPublisher(from url: URL) -> Publisher {
-        var task : FeedImageDataLoaderTask?
+        var task: FeedImageDataLoaderTask?
         
         return Deferred {
             Future { completion in
@@ -29,16 +29,15 @@ extension Publisher where Output == Data {
     func caching(to cache: FeedImageDataCache, using url: URL) -> AnyPublisher<Output, Failure> {
         handleEvents(receiveOutput: { data in
             cache.saveIgnoringResult(data, for: url)
-        })
-        .eraseToAnyPublisher()
+        }).eraseToAnyPublisher()
     }
 }
 
 private extension FeedImageDataCache {
-     func saveIgnoringResult(_ data: Data, for url: URL) {
-         save(data, for: url) { _ in }
-     }
- }
+    func saveIgnoringResult(_ data: Data, for url: URL) {
+        save(data, for: url) { _ in }
+    }
+}
 
 public extension FeedLoader {
     typealias Publisher = AnyPublisher<[FeedImage], Error>
@@ -52,7 +51,7 @@ public extension FeedLoader {
 }
 
 extension Publisher {
-    func fallback(to fallbackPublisher: @escaping() -> AnyPublisher<Output, Error>) -> AnyPublisher<Output, Error> {
+    func fallback(to fallbackPublisher: @escaping () -> AnyPublisher<Output, Failure>) -> AnyPublisher<Output, Failure> {
         self.catch { _ in fallbackPublisher() }.eraseToAnyPublisher()
     }
 }
@@ -76,7 +75,6 @@ extension Publisher {
 }
 
 extension DispatchQueue {
-    
     static var immediateWhenOnMainQueueScheduler: ImmediateWhenOnMainQueueScheduler {
         ImmediateWhenOnMainQueueScheduler()
     }
@@ -84,7 +82,7 @@ extension DispatchQueue {
     struct ImmediateWhenOnMainQueueScheduler: Scheduler {
         typealias SchedulerTimeType = DispatchQueue.SchedulerTimeType
         typealias SchedulerOptions = DispatchQueue.SchedulerOptions
-
+        
         var now: SchedulerTimeType {
             DispatchQueue.main.now
         }
@@ -92,8 +90,8 @@ extension DispatchQueue {
         var minimumTolerance: SchedulerTimeType.Stride {
             DispatchQueue.main.minimumTolerance
         }
-
-        func schedule(options: DispatchQueue.SchedulerOptions?, _ action: @escaping () -> Void) {
+        
+        func schedule(options: SchedulerOptions?, _ action: @escaping () -> Void) {
             guard Thread.isMainThread else {
                 return DispatchQueue.main.schedule(options: options, action)
             }
@@ -101,11 +99,11 @@ extension DispatchQueue {
             action()
         }
         
-        func schedule(after date: DispatchQueue.SchedulerTimeType, tolerance: DispatchQueue.SchedulerTimeType.Stride, options: DispatchQueue.SchedulerOptions?, _ action: @escaping () -> Void) {
+        func schedule(after date: SchedulerTimeType, tolerance: SchedulerTimeType.Stride, options: SchedulerOptions?, _ action: @escaping () -> Void) {
             DispatchQueue.main.schedule(after: date, tolerance: tolerance, options: options, action)
         }
         
-        func schedule(after date: DispatchQueue.SchedulerTimeType, interval: DispatchQueue.SchedulerTimeType.Stride, tolerance: DispatchQueue.SchedulerTimeType.Stride, options: DispatchQueue.SchedulerOptions?, _ action: @escaping () -> Void) -> Cancellable {
+        func schedule(after date: SchedulerTimeType, interval: SchedulerTimeType.Stride, tolerance: SchedulerTimeType.Stride, options: SchedulerOptions?, _ action: @escaping () -> Void) -> Cancellable {
             DispatchQueue.main.schedule(after: date, interval: interval, tolerance: tolerance, options: options, action)
         }
     }
