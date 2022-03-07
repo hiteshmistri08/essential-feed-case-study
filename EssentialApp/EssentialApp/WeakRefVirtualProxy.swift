@@ -17,20 +17,21 @@ final class WeakRefVirtualProxy<T: AnyObject> {
     }
 }
 
-extension WeakRefVirtualProxy : FeedLoadingView where T : FeedLoadingView {
-    func display(_ viewModel: FeedLoadingViewModel) {
+extension WeakRefVirtualProxy : ResourceErrorView where T : ResourceErrorView {
+    func display(_ viewModel: ResourceErrorViewModel) {
         self.object?.display(viewModel)
     }
 }
 
-extension WeakRefVirtualProxy : FeedImageView where T : FeedImageView, T.Image == UIImage {
-    func display(_ viewModel: FeedImageViewModel<UIImage>) {
+extension WeakRefVirtualProxy : ResourceLoadingView where T : ResourceLoadingView {
+    func display(_ viewModel: ResourceLoadingViewModel) {
         self.object?.display(viewModel)
     }
 }
 
-extension WeakRefVirtualProxy : FeedErrorView where T : FeedErrorView {
-    func display(_ viewModel: FeedErrorViewModel) {
+extension WeakRefVirtualProxy : ResourceView where T : ResourceView, T.ResourceViewModel == UIImage {
+    func display(_ viewModel: UIImage) {
         self.object?.display(viewModel)
     }
 }
+
