@@ -48,6 +48,14 @@ public final class ErrorView : UIButton  {
         hideMessage()
     }
     
+    public override var intrinsicContentSize: CGSize {
+        let labelSize = titleLabel?.sizeThatFits(CGSize(width: frame.size.width, height: CGFloat.greatestFiniteMagnitude)) ?? .zero
+        let insectWidth = (self.configuration?.contentInsets.leading ?? 0) + (self.configuration?.contentInsets.trailing ?? 0)
+        let insectHeight = (self.configuration?.contentInsets.top ?? 8) + (self.configuration?.contentInsets.bottom ?? 8)
+        let desiredButtonSize = CGSize(width: labelSize.width + insectWidth, height: labelSize.height + insectHeight)
+        return desiredButtonSize
+    }
+    
     private var isVisible: Bool {
         return alpha > 0
     }
@@ -62,8 +70,7 @@ public final class ErrorView : UIButton  {
     
     func showAnimated(_ message: String?) {
         setTitle(message, for: .normal)
-        contentEdgeInsets = .init(top: 8, left: 8, bottom: 8, right: 8)
-
+        self.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
         UIView.animate(withDuration: 0.25) {
             self.alpha = 1
         }
@@ -81,7 +88,7 @@ public final class ErrorView : UIButton  {
     private func hideMessage() {
         setTitle(nil, for: .normal)
         alpha = 0
-        contentEdgeInsets = .init(top: -2.5, left: 0, bottom: -2.5, right: 0)
+        self.configuration?.contentInsets = NSDirectionalEdgeInsets(top: -2.5, leading: 0, bottom: -2.5, trailing: 0)
         onHide?()
     }
 }
