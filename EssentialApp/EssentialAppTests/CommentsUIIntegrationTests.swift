@@ -95,6 +95,18 @@ final class CommentsUIIntegrationTests: FeedUIIntegrationTests {
         assertThat(sut, isRendering: [comment])
     }
     
+    func test_loadCommentsCompletion_dispatchesFromBackgroundToMainThread() {
+        let (sut, loader) = makeSUT()
+        sut.loadViewIfNeeded()
+        
+        let ext = expectation(description: "wait for background queue")
+        DispatchQueue.global().async {
+            loader.completeCommentsLoading(at: 0)
+            ext.fulfill()
+        }
+        wait(for: [ext], timeout: 1.0)
+    }
+    
     override func test_loadFeedCompletion_rendersErrorMessageOnErrorUntilNextReload() {
         let (sut, loader) = makeSUT()
         
