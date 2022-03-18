@@ -24,16 +24,16 @@ final class CommentsUIIntegrationTests: FeedUIIntegrationTests {
     
     func test_loadCommentsActions_requestCommentsFromLoader() {
         let (sut, loader) = makeSUT()
-        XCTAssertEqual(loader.loadCommentCallCount, 0, "Expected on loading requests before view is loaded")
+        XCTAssertEqual(loader.loadCommentsCallCount, 0, "Expected on loading requests before view is loaded")
 
         sut.loadViewIfNeeded()
-        XCTAssertEqual(loader.loadCommentCallCount, 1, "Expected a loading request once view is loaded")
+        XCTAssertEqual(loader.loadCommentsCallCount, 1, "Expected a loading request once view is loaded")
         
         sut.simulateUserInitiatedReload()
-        XCTAssertEqual(loader.loadCommentCallCount, 2, "Expected another loading request once user initiates another load")
+        XCTAssertEqual(loader.loadCommentsCallCount, 2, "Expected another loading request once user initiates another load")
         
         sut.simulateUserInitiatedReload()
-        XCTAssertEqual(loader.loadCommentCallCount, 3, "Expected a third loading request once user initiates another load")
+        XCTAssertEqual(loader.loadCommentsCallCount, 3, "Expected a third loading request once user initiates another load")
     }
     
     override func test_loadFeedIndicator_isVisibleWhileLoadingFeed() {
@@ -144,7 +144,7 @@ final class CommentsUIIntegrationTests: FeedUIIntegrationTests {
         
         private var commentRequests : [PassthroughSubject<[FeedImage], Error>] = []
         
-        var loadCommentCallCount: Int {
+        var loadCommentsCallCount: Int {
             return commentRequests.count
         }
                         
