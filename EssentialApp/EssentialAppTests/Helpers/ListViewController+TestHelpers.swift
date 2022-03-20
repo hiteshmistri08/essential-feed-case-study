@@ -30,7 +30,6 @@ extension ListViewController {
     var errorMessage: String? {
         return errorView.message
     }
-    
 }
 
 extension ListViewController {
@@ -79,6 +78,12 @@ extension ListViewController {
         let index = IndexPath(row: row, section: feedImagesSection)
         delegate?.tableView?(tableView, didEndDisplaying: view!, forRowAt: index)
         return view
+    }
+    
+    func simulateTapOnFeedImage(at row: Int = 0) {
+        let delegate = tableView.delegate
+        let index = IndexPath(row: row, section: feedImagesSection)
+        delegate?.tableView?(tableView, didSelectRowAt: index)
     }
     
     func simulateFeedImageViewNearVisible(at row: Int = 0) {
