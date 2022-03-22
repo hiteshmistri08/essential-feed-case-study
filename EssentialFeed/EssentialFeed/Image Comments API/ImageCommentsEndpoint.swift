@@ -8,7 +8,7 @@
 import Foundation
 
 public enum ImageCommentsEndpoint {
-case get(UUID)
+    case get(UUID)
     
     public func url(baseURL: URL) -> URL {
         switch self {
