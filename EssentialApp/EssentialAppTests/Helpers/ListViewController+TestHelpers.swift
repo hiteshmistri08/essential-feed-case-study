@@ -32,7 +32,7 @@ extension ListViewController {
     }
     
     func numberOfRow(in section: Int) -> Int {
-        return tableView.numberOfSections == 0 ? 0 : tableView.numberOfRows(inSection: section)
+        return tableView.numberOfSections > section ? tableView.numberOfRows(inSection: section) : 0
     }
     
     func cell(row: Int, section: Int) -> UITableViewCell? {
