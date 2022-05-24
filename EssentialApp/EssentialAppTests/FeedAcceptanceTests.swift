@@ -12,7 +12,7 @@ import EssentialFeediOS
 
 class EssentialAppTests: XCTestCase {
     
-    func test_onLaunch_displayRemoteFeedWhenCustomerHasConnectivity() {
+    func test_onLaunch_displaysRemoteFeedWhenCustomerHasConnectivity() {
         let feed = launch(httpClient: .online(response), store: .empty)
         
         XCTAssertEqual(feed.numberOfRenderedFeedImageViews(), 2)
@@ -114,13 +114,8 @@ class EssentialAppTests: XCTestCase {
         }
     }
     
-    private func makeImageData0() -> Data {
-        return UIImage.make(withColor: .red).pngData()!
-    }
-    
-    private func makeImageData1() -> Data {
-        return UIImage.make(withColor: .green).pngData()!
-    }
+    private func makeImageData0() -> Data { UIImage.make(withColor: .red).pngData()! }
+    private func makeImageData1() -> Data { UIImage.make(withColor: .green).pngData()! }
     
     private func makeFeedData() -> Data {
         return try! JSONSerialization.data(withJSONObject: ["items": [
