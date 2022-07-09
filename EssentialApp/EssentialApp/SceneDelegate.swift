@@ -9,7 +9,6 @@ import UIKit
 import Combine
 import CoreData
 import EssentialFeed
-import EssentialFeediOS
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
@@ -19,10 +18,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }()
     
     private lazy var store: FeedStore & FeedImageDataStore = {
-        return try! CoreDataFeedStore(
-            storeURL: NSPersistentContainer
-                                        .defaultDirectoryURL()
-                                        .appendingPathComponent("feed-store.sqlite"))
+        do {
+            return try CoreDataFeedStore(
+                storeURL: NSPersistentContainer
+                            .defaultDirectoryURL()
+                            .appendingPathComponent("feed-store.sqlite"))
+        } catch {
+            return NullStore()
+        }
     }()
     
     private lazy var localFeedLoader: LocalFeedLoader = {
