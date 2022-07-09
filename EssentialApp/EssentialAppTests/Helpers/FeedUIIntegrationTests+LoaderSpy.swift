@@ -28,14 +28,15 @@ extension FeedUIIntegrationTests {
             return publisher.eraseToAnyPublisher()
         }
         
+        func completeFeedLoadingWithError(at index: Int = 0) {
+            self.feedRequests[index].send(completion: .failure(anyNSError()))
+        }
+        
         func completeFeedLoading(with feed: [FeedImage] = [], at index: Int = 0) {
             self.feedRequests[index].send(Paginated(items: feed, loadMorePublisher: { [weak self] in
                 self?.loadMorePublisher() ?? Empty().eraseToAnyPublisher()
             }))
-        }
-        
-        func completeFeedLoadingWithError(at index: Int = 0) {
-            self.feedRequests[index].send(completion: .failure(anyNSError()))
+            self.feedRequests[index].send(completion: .finished)
         }
         
         // MARK: - LoadMoreFeedLoader
