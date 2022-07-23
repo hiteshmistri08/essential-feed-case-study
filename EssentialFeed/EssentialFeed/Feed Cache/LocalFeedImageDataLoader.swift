@@ -10,22 +10,22 @@ import Foundation
 public final class LocalFeedImageDataLoader {
     private let store: FeedImageDataStore
     
-    public enum SaveError: Error {
-        case failed
-    }
-    
     public init(store: FeedImageDataStore) {
         self.store = store
     }
 }
 
 extension LocalFeedImageDataLoader: FeedImageDataCache {
-    public typealias SaveResult = FeedImageDataCache.Result
+    public enum SaveError: Error {
+        case failed
+    }
     
-    public func save(_ data: Data, for url: URL, completion: @escaping(FeedImageDataStore.InsertionResult) -> Void) {
-        completion(SaveResult {
+    public func save(_ data: Data, for url: URL) throws {
+        do {
             try store.insert(data, for: url)
-        }.mapError { _ in SaveError.failed })
+        } catch {
+            throw SaveError.failed
+        }
     }
 }
 
