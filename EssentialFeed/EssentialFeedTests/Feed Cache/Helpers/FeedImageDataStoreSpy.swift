@@ -14,34 +14,33 @@ class FeedImageDataStoreSpy: FeedImageDataStore {
         case retrieve(dataForURL: URL)
     }
     
-    private var retrievalCompletions = [(FeedImageDataStore.RetrievalResult) -> Void]()
-    private var insertionCompletions = [(FeedImageDataStore.InsertionResult) -> Void]()
     private(set) var recievedMessages = [Message]()
+    private var retrievalResult: Result<Data?, Error>?
+    private var insertionResult: Result<Void, Error>?
     
-    
-    func insert(_ data: Data, for url: URL, completion: @escaping (FeedImageDataStore.InsertionResult) -> Void) {
+    func insert(_ data: Data, for url: URL) throws {
         recievedMessages.append(.insertion(data: data, for: url))
-        insertionCompletions.append(completion)
+        try insertionResult?.get()
     }
     
     func completeInsertion(with error: Error, at index: Int = 0) {
-        insertionCompletions[index](.failure(error))
+        insertionResult = .failure(error)
     }
     
     func completeInsertionSuccessfully(at index: Int = 0) {
-        insertionCompletions[index](.success(()))
+        insertionResult = .success(())
     }
     
-    func retrieve(dataForURL url: URL, completion:@escaping(FeedImageDataStore.RetrievalResult) -> Void) {
+    func retrieve(dataForURL url: URL) throws -> Data? {
         recievedMessages.append(.retrieve(dataForURL: url))
-        retrievalCompletions.append(completion)
+        return try retrievalResult?.get()
     }
     
     func completeRetrieval(with error: Error, at index: Int = 0) {
-        retrievalCompletions[index](.failure(error))
+        retrievalResult = .failure(error)
     }
     
     func completeRetrieval(with data: Data?, at index: Int = 0) {
-        retrievalCompletions[index](.success(data))
+        retrievalResult = .success(data)
     }
 }

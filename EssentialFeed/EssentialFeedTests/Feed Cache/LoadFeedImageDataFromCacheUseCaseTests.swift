@@ -20,7 +20,7 @@ class LoadFeedImageDataFromCacheUseCaseTests: XCTestCase {
         let (sut, store) = makeSUT()
         let url = anyURL()
         
-        _ = sut.loadImageData(from: url) { _ in }
+        _ = try? sut.loadImageData(from: url)
         
         XCTAssertEqual(store.recievedMessages, [.retrieve(dataForURL: url)])
     }
@@ -50,36 +50,7 @@ class LoadFeedImageDataFromCacheUseCaseTests: XCTestCase {
             store.completeRetrieval(with: foundData)
         })
     }
-    
-    func test_loadImageDataFromURL_doesNotDeliversResultAfterCancellingError() {
-        let (sut, store) = makeSUT()
-        let foundData = anyData()
         
-        var received = [FeedImageDataLoader.Result]()
-        
-        let task = sut.loadImageData(from: anyURL()) { received.append($0) }
-        task.cancel()
-        
-        store.completeRetrieval(with: foundData)
-        store.completeRetrieval(with: .none)
-        store.completeRetrieval(with: anyNSError())
-        
-        XCTAssertTrue(received.isEmpty, "Expected no received results after cancelling task")
-    }
-    
-    func test_loadImageDataFromURL_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {
-        let store = FeedImageDataStoreSpy()
-        var sut: LocalFeedImageDataLoader? = LocalFeedImageDataLoader(store: store)
-        
-        var receivedResult = [FeedImageDataLoader.Result]()
-        _ = sut?.loadImageData(from: anyURL()) { receivedResult.append($0) }
-        
-        sut = nil
-        store.completeRetrieval(with: anyData())
-        
-        XCTAssertTrue(receivedResult.isEmpty, "Expected no received results after instance has been deallocated")
-    }
-    
     // MARK: - Helper
     
     private func makeSUT(file: StaticString = #file, line:UInt = #line) -> (sut: LocalFeedImageDataLoader, store: FeedImageDataStoreSpy) {
@@ -90,35 +61,28 @@ class LoadFeedImageDataFromCacheUseCaseTests: XCTestCase {
         return (sut, store)
     }
     
-    private func failed() -> FeedImageDataLoader.Result {
+    private func failed() -> Result<Data, Error> {
         return .failure(LocalFeedImageDataLoader.LoadError.failed)
     }
     
-    private func notFound() -> FeedImageDataLoader.Result {
+    private func notFound() -> Result<Data, Error> {
         return .failure(LocalFeedImageDataLoader.LoadError.notFound)
     }
     
-    private func expect(with sut: LocalFeedImageDataLoader, toCompleteWith expectedResult: FeedImageDataLoader.Result, when action:() -> Void, file: StaticString = #file, line: UInt = #line) {
-        let url = anyURL()
-        
-        let exp = expectation(description: "Wait for load completion")
-        _ = sut.loadImageData(from: url) { receivedResult in
-            switch (receivedResult, expectedResult) {
-            case (let .success(receivedData), let .success(expectedData)):
-                XCTAssertEqual(receivedData, expectedData, file: file, line: line)
-            
-            case (let .failure(receivedError as NSError), let .failure(expectedError as NSError)):
-                XCTAssertEqual(receivedError, expectedError, file: file, line: line)
-                
-            default:
-                XCTFail("expected result \(expectedResult), got \(receivedResult) instead", file: file, line: line)
-            }
-            
-            exp.fulfill()
-        }
-
+    private func expect(with sut: LocalFeedImageDataLoader, toCompleteWith expectedResult: Result<Data, Error>, when action:() -> Void, file: StaticString = #file, line: UInt = #line) {
         action()
-    
-        wait(for: [exp], timeout: 1.0)
+        
+        let receivedResult = Result { try sut.loadImageData(from: anyURL()) }
+        
+        switch (receivedResult, expectedResult) {
+        case (let .success(receivedData), let .success(expectedData)):
+            XCTAssertEqual(receivedData, expectedData, file: file, line: line)
+            
+        case (let .failure(receivedError as NSError), let .failure(expectedError as NSError)):
+            XCTAssertEqual(receivedError, expectedError, file: file, line: line)
+            
+        default:
+            XCTFail("expected result \(expectedResult), got \(receivedResult) instead", file: file, line: line)
+        }
     }
 }
